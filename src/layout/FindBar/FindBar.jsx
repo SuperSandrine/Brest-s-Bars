@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAxios } from '../../Data/useAxios';
 import ExploreSection from './ExploreSection';
 import Error from '../../pages/Error/Error';
+import { useAxios } from '../../data/useAxios.jsx';
 
 const FindBar = () => {
   const [dataFetched, error, loading] = useAxios();
