@@ -2,6 +2,7 @@ import React from 'react';
 import ExploreSection from './ExploreSection';
 import Error from '../../pages/Error/Error';
 import { useAxios } from '../../data/useAxios.jsx';
+import Mapbox from '../../components/Mapbox/Mapbox.jsx';
 
 const FindBar = () => {
   const [dataFetched, error, loading] = useAxios();
@@ -27,6 +28,7 @@ const FindBar = () => {
         <section>
           <h3>Où boire à Brest</h3>
         </section>
+        <Mapbox />
         <ExploreSection places={dataFetched.data} />
       </div>
     );
