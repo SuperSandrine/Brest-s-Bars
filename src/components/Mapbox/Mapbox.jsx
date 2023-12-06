@@ -11,7 +11,7 @@ const accessToken = environment.mapbox.accessToken;
 // Import styling
 //import '../../../App.css';
 
-//mapboxgl.accessToken = accessToken;
+mapboxgl.accessToken = accessToken;
 
 const Mapbox = (props) => {
   const mapContainerRef = useRef(null);
@@ -21,7 +21,7 @@ const Mapbox = (props) => {
   const places = props.places; // array complet ou array trié
   //console.log('places :', places);
 
-  mapboxgl.accessToken = accessToken;
+  //mapboxgl.accessToken = accessToken;
 
   //center on Brest city Hall
   useEffect(() => {
