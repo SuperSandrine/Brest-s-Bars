@@ -5,13 +5,13 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Remember where we stored our token?
-import { environment } from '../../environments/EnvDev';
+import { environment } from '../../environments/EnvDev.js';
 const accessToken = environment.mapbox.accessToken;
 
 // Import styling
 //import '../../../App.css';
 
-mapboxgl.accessToken = accessToken;
+//mapboxgl.accessToken = accessToken;
 
 const Mapbox = (props) => {
   const mapContainerRef = useRef(null);
