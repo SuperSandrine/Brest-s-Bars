@@ -6,7 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Remember where we stored our token?
 //import { environment } from '../../environments/EnvDev.js';
-import { environment } from '../../environments/EnvDev.js';
+import { environment } from '../../environments/EnvDev';
 const accessToken = environment.mapbox.accessToken;
 
 // Import styling
