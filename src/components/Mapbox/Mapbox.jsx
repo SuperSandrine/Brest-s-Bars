@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Remember where we stored our token?
+//import { environment } from '../../environments/EnvDev.js';
 import { environment } from '../../environments/EnvDev.js';
 const accessToken = environment.mapbox.accessToken;
 
@@ -21,7 +22,7 @@ const Mapbox = (props) => {
   const places = props.places; // array complet ou array trié
   //console.log('places :', places);
 
-  //mapboxgl.accessToken = accessToken;
+  mapboxgl.accessToken = accessToken;
 
   //center on Brest city Hall
   useEffect(() => {
