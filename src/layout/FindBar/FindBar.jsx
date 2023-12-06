@@ -28,7 +28,7 @@ const FindBar = () => {
         <section>
           <h3>Où boire à Brest</h3>
         </section>
-        <Mapbox />
+        <Mapbox places={dataFetched.data} />
         <ExploreSection places={dataFetched.data} />
       </div>
     );

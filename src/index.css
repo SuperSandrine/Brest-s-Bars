@@ -8,3 +8,15 @@
     color: #dfe090;
   }
 }
+
+.mapboxgl-popup-content {
+  background-color: #00F0C3;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+}
+
+/* small arrow bottom
+TODO: dynamic color according popup position */
+.costumPopup .mapboxgl-popup-tip {
+  border-top-color: #00F0C3;
+}
