@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const useAxios = () => {
   const [mainData, setMainData] = useState([]);
-
   const [hasError, setError] = useState(false);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {

@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { MapContext } from '../../layout/FindBar/MapContext';
 // Here's our Mapbox imports
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+import { useInitialArrayDisplayed } from '../../data/formatData';
 
 // Remember where we stored our token?
 //import { environment } from '../../environments/EnvDev.js';
@@ -12,15 +14,22 @@ const accessToken = environment.mapbox.accessToken;
 // Import styling
 //import '../../../App.css';
 
-mapboxgl.accessToken = accessToken;
+//mapboxgl.accessToken = accessToken;
 
 const Mapbox = (props) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
 
   const [zoom] = useState(12);
-  const places = props.places; // array complet ou array trié
+  //const [dataFetched, error, loading] = useContext(MapContext);
+  //const places = dataFetched.data;
+  //const places = props.places; // array complet ou array trié
   //console.log('places :', places);
+  //const { initialArrayCutted } = useInitialArrayDisplayed();
+  //const places = initialArrayCutted;
+  console.log('dans mapbox, props', props);
+  //console.log("places dans mapbox, ça augmente?", places);
+  const places = props.array;
 
   mapboxgl.accessToken = accessToken;
 
@@ -141,13 +150,13 @@ const Mapbox = (props) => {
     //clean up on unmount
 
     return () => mapRef.current.remove();
-  }, [zoom]);
+  }, [zoom, places]);
 
   return (
     <>
       <div
-        className="map-container w-full h-1/3"
-        style={{ height: 400 }}
+        className="map-container w-full h-full absolute top-0 z-0"
+        style={{ height: 'calc(100vh - 5rem)' }}
         ref={mapContainerRef}
       />
     </>
