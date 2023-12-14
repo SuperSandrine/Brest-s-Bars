@@ -20,3 +20,20 @@ TODO: dynamic color according popup position */
 .costumPopup .mapboxgl-popup-tip {
   border-top-color: #00F0C3;
 }
+
+/* rating */
+.half-star {
+  position: relative;
+  display: inline-block;
+  /* Couleur de l'étoile */
+   /* Taille de la police */
+}
+
+.half-star::after {
+  content: "\2605"; /* Étoile pleine */
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 50%; /* Moitié de l'étoile */
+}

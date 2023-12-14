@@ -10,7 +10,7 @@ const ExploreSection = (props) => {
     //<section className="w-full md:w-1/3 lg:w-1/4 p-5">
     <section className="">
       <h3 className="font-display text-4xl py-4">Explorer</h3>
-      <BarCards array={props}/>
+      <BarCards array={props} />
     </section>
   );
 };

@@ -1,18 +1,12 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import { MapContext } from '../../layout/FindBar/MapContext';
+import React, { useEffect, useState, useRef } from 'react';
+
 // Here's our Mapbox imports
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import { useInitialArrayDisplayed } from '../../data/formatData';
-
 // Remember where we stored our token?
-//import { environment } from '../../environments/EnvDev.js';
 import { environment } from '../../environments/EnvDev';
 const accessToken = environment.mapbox.accessToken;
-
-// Import styling
-//import '../../../App.css';
 
 //mapboxgl.accessToken = accessToken;
 
@@ -21,14 +15,7 @@ const Mapbox = (props) => {
   const mapRef = useRef(null);
 
   const [zoom] = useState(12);
-  //const [dataFetched, error, loading] = useContext(MapContext);
-  //const places = dataFetched.data;
-  //const places = props.places; // array complet ou array trié
-  //console.log('places :', places);
-  //const { initialArrayCutted } = useInitialArrayDisplayed();
-  //const places = initialArrayCutted;
-  console.log('dans mapbox, props', props);
-  //console.log("places dans mapbox, ça augmente?", places);
+  //console.log('dans mapbox, props', props);
   const places = props.array;
 
   mapboxgl.accessToken = accessToken;
@@ -49,15 +36,6 @@ const Mapbox = (props) => {
       mapRef.current.resize();
     });
 
-    //let lat1 = places.location.coordinates[1];
-    //let lg1 = places.location.coordinates[0];
-    //console.log("coordonnées lat et lg: ", lat1, lg1);
-
-    // Create a default Marker and add it to the map.
-    //const mark1 = new mapboxgl.LngLat(lg1, lat1);
-    //console.log(mark1);
-    //console.log("type places :", typeof(places))
-
     // ____ marche
     //const markers = [];
     places.map((place) => {
@@ -70,17 +48,14 @@ const Mapbox = (props) => {
         .addClassName(`${place.id}`)
         .addTo(mapRef.current);
     });
-    //console.log("markers qu'est ce :", markers);
 
     const markersDiv = document.querySelectorAll('div.markersToGet');
-    console.log("markersDiv qu'est ce :", markersDiv);
+    //console.log("markersDiv qu'est ce :", markersDiv);
     //_____fin marche
-
-    // // quand la souris passe sur le marker, elle devient pointer sur la carte.
-    // marker1Div.addEventListener('mouseenter', (e) => {
-    //   mapRef.current.getCanvas().style.cursor = 'pointer';
-    //   //marker1.togglePopup()
-    // });
+    const cardsDiv = document.querySelectorAll(
+      'button[data-name="cardsToGet"]'
+    );
+    //console.log("cardsDiv qu'est ce :", cardsDiv);
 
     // Popup setup
     const popup = new mapboxgl.Popup({
@@ -91,13 +66,11 @@ const Mapbox = (props) => {
 
     markersDiv.forEach((marker) => {
       marker.addEventListener('mouseenter', (e) => {
-        //console.log("qu'y a til dans 'e' :", e.target.classList[3]);
         const id = e.target.classList[3];
         // trouver les coordonées dans le tableau : "places"
         const dataFromMarker = places.find((place) => place.id == id);
-        //console.log('dataFromMarker', dataFromMarker.location.coordinates);
+
         const coordinatesFromMarker = dataFromMarker.location.coordinates;
-        //console.log('places et coor : ', typeof(places[0].id), 'et coor :', typeof(coor), 'et id :', typeof(id));
 
         marker.style.cursor = 'pointer';
         popup
@@ -109,10 +82,8 @@ const Mapbox = (props) => {
             <div>`
           )
           .addTo(mapRef.current);
-        //marker1.togglePopup()
       });
     });
-
     markersDiv.forEach((marker) => {
       marker.addEventListener('mouseleave', () => {
         marker.style.cursor = 'auto';
@@ -120,35 +91,38 @@ const Mapbox = (props) => {
       });
     });
 
-    // marker1Div.addEventListener('mouseenter', (e) => {
-    //   marker1Div.style.cursor = 'pointer';
-    //   popup
-    //     .setLngLat([
-    //       places[0].location.coordinates[0],
-    //       places[0].location.coordinates[1],
-    //     ])
-    //     .setHTML('<h1>Hello World!</h1>')
-    //     .addTo(mapRef.current);
-    //   //marker1.togglePopup()
-    // });
+    cardsDiv.forEach((card) => {
+      card.addEventListener('mouseenter', (e) => {
+        //console.log("qu'est ce dans e dans card", e); //121 string
+        const id = e.target.dataset.id;
+        // trouver les coordonées dans le tableau : "places"
+        const dataFromCard = places.find((place) => place.id == id);
+        //console.log('data from card', dataFromCard);
 
-    // const marker1 = new mapboxgl.Marker({ color: 'pink' })
-    //   .setLngLat([
-    //     places[0].location.coordinates[0],
-    //     places[0].location.coordinates[1],
-    //   ])
-    //   .addTo(mapRef.current);
-    // console.log("marker1 qu'est ce :", marker1);
-    // const marker1Div = marker1.getElement();
-    // console.log("marker1Div qu'est ce :", marker1Div);
+        const coordinatesFromCard = dataFromCard.location.coordinates;
+        //console.log("coor", coordinatesFromCard);
 
-    // marker1Div.addEventListener('mouseleave', () => {
-    //   marker1Div.style.cursor = 'auto';
-    //   popup.remove();
-    // });
+        card.style.cursor = 'pointer';
+        popup
+          .setLngLat(coordinatesFromCard)
+          .setHTML(
+            `<div class="bg-accent text-secondary ">
+              <h4 class="font-display text-2xl">${dataFromCard.name}</h4>
+              <p>${dataFromCard.address}</p>
+            <div>`
+          )
+          .addTo(mapRef.current);
+      });
+    });
+    cardsDiv.forEach((card) => {
+      card.addEventListener('mouseleave', () => {
+        //console.log('mouseleave e', e);
+        card.style.cursor = 'auto';
+        popup.remove();
+      });
+    });
 
     //clean up on unmount
-
     return () => mapRef.current.remove();
   }, [zoom, places]);
 
