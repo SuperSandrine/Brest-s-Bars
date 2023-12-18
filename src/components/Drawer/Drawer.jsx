@@ -1,4 +1,4 @@
-const Drawer = ({ isOpen, onClose, children }) => {
+const Drawer = ({ isOpen, children }) => {
   const drawerClasses = isOpen ? '' : '-translate-x-[17rem]';
 
   // const overlayClasses = isOpen

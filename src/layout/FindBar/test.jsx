@@ -8,7 +8,7 @@ import Button from '../../components/Button/Button.jsx';
 import { usePlaces } from './MapContext.jsx';
 import Drawer from '../../components/Drawer/Drawer.jsx';
 
-const FindBar = () => {
+export const FindBar = () => {
   const [dataFetched, error, loading] = useContext(MapContext);
   const [displayedPlaces, setDisplayedPlaces] = useState(5);
   const places = usePlaces();
@@ -28,10 +28,6 @@ const FindBar = () => {
   const handleToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
-
-  // const handleCloseDrawer = () => {
-  //   setIsDrawerOpen(false);
-  // };
 
   if (loading) {
     return (
@@ -71,25 +67,5 @@ const FindBar = () => {
         <Mapbox array={initialArrayCutted} />
       </div>
     );
-
-    // return (
-    //   <div className="relative">
-    //     <div className="drawer absolute top-4 z-10 bg-secondary w-full md:w-1/3 lg:w-1/4 p-5">
-    //       <h2 className="font-display text-5xl">
-    //         Trouver le bar qu'il vous faut{' '}
-    //         <span className="text-accent">selon votre humeur</span>
-    //       </h2>
-    //       <FilterSection></FilterSection>
-    //       <ExploreSection
-    //         array={initialArrayCutted}
-    //         displayedPlacesNb={displayedPlaces}
-    //       />
-    //       <Button onClickAction={loadMore}> Afficher plus </Button>
-    //     </div>
-    //     <Mapbox array={initialArrayCutted} />
-    //   </div>
-    // );
   }
 };
-
-export default FindBar;

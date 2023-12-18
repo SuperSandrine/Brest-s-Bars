@@ -1,7 +1,7 @@
 export const getStarRating = (rating) => {
   const fullStars = Math.floor(rating); // Nombre d'étoiles pleines (arrondi)
   const halfStar = rating % 1; // Vérifie s'il y a une demi-étoile
-  console.log("halfstar qu'ai je", halfStar);
+  //console.log("halfstar qu'ai je", halfStar);
 
   const stars = [];
   // Ajoute les étoiles pleines
@@ -29,7 +29,7 @@ export const getStarRating = (rating) => {
   // Si le rating est un nombre entier, ajoute les étoiles vides pour compléter jusqu'à 5 étoiles
   const remainingStars = 5 - stars.length;
   //const remainingStars = 5 - fullStars - (halfStar ? 1 : 0);
-  console.log('quelle remain', remainingStars);
+  //console.log('quelle remain', remainingStars);
 
   for (let i = 0; i < remainingStars; i++) {
     stars.push(<span key={i + stars.length + 1}>&#9734;</span>); // &#9734; est le code HTML pour une étoile vide
