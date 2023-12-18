@@ -8,12 +8,43 @@ import Button from '../../components/Button/Button.jsx';
 import { usePlaces } from './MapContext.jsx';
 import Drawer from '../../components/Drawer/Drawer.jsx';
 
+import { useReducer } from 'react';
+
+// export const MapApp = () => {
+//   const [map, dispatch] = useReducer(mapReducer, initialmap);
+
+// const handleFilterMap =()=>{
+//   dispatch({
+//     type: 'filter',
+//     text: text
+//   })
+// }
+// return(
+//   <>
+
+//   </>
+// )
+// };
+
 const FindBar = () => {
   const [dataFetched, error, loading] = useContext(MapContext);
   const [displayedPlaces, setDisplayedPlaces] = useState(5);
   const places = usePlaces();
   //console.log("places dans findbar", places);
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+
+  const [map, dispatch] = useReducer(mapReducer, places);
+
+  const handleFilterMap = () => {
+    dispatch({
+      type: 'filter',
+    });
+  };
+  const handleSortMap =()=>{
+    dispatch({
+      type:'sort',
+    });
+  };
 
   const areDataReady = !loading && !error && dataFetched;
 
@@ -61,7 +92,11 @@ const FindBar = () => {
             Trouver le bar qu'il vous faut{' '}
             <span className="text-accent">selon votre humeur</span>
           </h2>
-          <FilterSection array={places}></FilterSection>
+          <FilterSection
+            array={places}
+            onFilter={handleFilterMap}
+            onSort={handleSortMap}
+          ></FilterSection>
           <ExploreSection
             array={initialArrayCutted}
             displayedPlacesNb={displayedPlaces}
@@ -93,3 +128,22 @@ const FindBar = () => {
 };
 
 export default FindBar;
+
+const mapReducer = (map, action) => {
+  switch (action.type) {
+    case 'filter': {
+      return [
+        ...map,
+        {
+          id: action.id,
+        },
+      ];
+    }
+    case 'sort': {
+      return [...map, { id: action.id }];
+    }
+    default: {
+      throw Error('Unknow action:' + action.type);
+    }
+  }
+};
