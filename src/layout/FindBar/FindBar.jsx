@@ -21,9 +21,9 @@ const FindBar = () => {
     ? places.slice(0, displayedPlaces)
     : [];
 
-  const loadMore = () => {
-    setDisplayedPlaces(displayedPlaces + 5);
-  };
+  // const loadMore = () => {
+  //   setDisplayedPlaces(displayedPlaces + 5);
+  // };
 
   const handleToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
