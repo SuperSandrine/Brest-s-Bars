@@ -1,11 +1,22 @@
+import { useContext } from 'react';
+import {
+  MapDataToManipulateContext,
+  usePlaces,
+} from '../../layout/FindBar/MapContext';
 import { getStarRating } from '../Stars/Stars';
 
-const BarCards = (props) => {
+const BarCards = () => {
   //console.log('dans barcard, c koi props', props);
+  const places2 = usePlaces();
+  const { data } = useContext(MapDataToManipulateContext);
+
+  const test = data ? data : places2;
 
   return (
     <div className="">
-      {props.array.array.map((place) => (
+      {/* {props.array.array.map((place) => ( */}
+
+      {test.map((place) => (
         <button
           className="border-2 rounded-lg  hover:bg-accent hover:text-secondary p-2 mb-4 w-full text-left "
           key={place.id}

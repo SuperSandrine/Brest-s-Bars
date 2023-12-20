@@ -3,15 +3,20 @@ import ExploreSection from './ExploreSection';
 import Error from '../../pages/Error/Error';
 import Mapbox from '../../components/Mapbox/Mapbox.jsx';
 import FilterSection from './FilterSection.jsx';
-import { MapContext } from './MapContext.jsx';
+import { MapContext, MapDataToManipulateContext } from './MapContext.jsx';
 import Button from '../../components/Button/Button.jsx';
 import { usePlaces } from './MapContext.jsx';
 import Drawer from '../../components/Drawer/Drawer.jsx';
 
 const FindBar = () => {
   const [dataFetched, error, loading] = useContext(MapContext);
-  const [displayedPlaces, setDisplayedPlaces] = useState(5);
   const places = usePlaces();
+  //console.log("le map context", dataFetched, error, loading);
+  const { data, updateDataContext } = useContext(MapDataToManipulateContext);
+  console.log("estce que dans finder j'ai le texte?", data);
+
+  const [displayedPlaces, setDisplayedPlaces] = useState(5);
+  //console.log("places au début", places);
   //console.log("places dans findbar", places);
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
@@ -20,10 +25,12 @@ const FindBar = () => {
   const initialArrayCutted = areDataReady
     ? places.slice(0, displayedPlaces)
     : [];
+    
 
-  // const loadMore = () => {
-  //   setDisplayedPlaces(displayedPlaces + 5);
-  // };
+
+  const loadMore = () => {
+    setDisplayedPlaces(displayedPlaces + 5);
+  };
 
   const handleToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);

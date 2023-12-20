@@ -1,5 +1,5 @@
 // Fonction pour vérifier si un lieu est ouvert en ce moment
-export function useOpenNowPlace(place) {
+export function openNowPlaces(place) {
   const currentDay = new Date().getDay(); // Jour actuel (0 pour dimanche, 1 pour lundi, etc.)
   const currentHour = new Date().getHours(); // Heure actuelle
   const currentMinutes = new Date().getMinutes(); // Minutes actuelles
