@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 #files work on progress
-src/utils/sort*
+#src/utils/sort*

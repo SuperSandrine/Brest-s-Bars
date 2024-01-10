@@ -4,7 +4,7 @@ import { openNowPlaces } from '../../utils/filter/openNowPlacesFilter';
 import { MapDataToManipulateContext, usePlaces } from './MapContext';
 import { hasThursdayOpeningHours } from '../../utils/filter/hasThursdayOpeningHours';
 import { bestRates } from '../../utils/sort/sortBestRate.js';
-import { moreUsersVote } from '../../utils/sort/sortMoreUsersVote';
+import { moreUsersVote } from '../../utils/sort/sortMoreUsersVote.js';
 
 const FilterSection = () => {
   const places2 = usePlaces();
