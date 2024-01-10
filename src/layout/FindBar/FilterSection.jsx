@@ -3,7 +3,7 @@ import Button from '../../components/Button/Button';
 import { openNowPlaces } from '../../utils/filter/openNowPlacesFilter';
 import { MapDataToManipulateContext, usePlaces } from './MapContext';
 import { hasThursdayOpeningHours } from '../../utils/filter/hasThursdayOpeningHours';
-import { bestRates } from '../../utils/sort/sortBestRate';
+import { bestRates } from '../../utils/sort/sortBestRate.js';
 import { moreUsersVote } from '../../utils/sort/sortMoreUsersVote';
 
 const FilterSection = () => {
