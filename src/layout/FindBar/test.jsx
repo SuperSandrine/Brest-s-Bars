@@ -1,71 +1,64 @@
-import React, { useContext, useState } from 'react';
-import ExploreSection from './ExploreSection';
-import Error from '../../pages/Error/Error';
-import Mapbox from '../../components/Mapbox/Mapbox.jsx';
-import FilterSection from './FilterSection.jsx';
-import { MapContext } from './MapContext.jsx';
-import Button from '../../components/Button/Button.jsx';
-import { usePlaces } from './MapContext.jsx';
-import Drawer from '../../components/Drawer/Drawer.jsx';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useAxios } from '../../data/useAxios';
 
-export const FindBar = () => {
-  const [dataFetched, error, loading] = useContext(MapContext);
-  const [displayedPlaces, setDisplayedPlaces] = useState(5);
-  const places = usePlaces();
-  //console.log("places dans findbar", places);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+export const MapContext = createContext(null);
+export const MapDataToManipulateContext = createContext(null);
+export const MapDataToDisplayContext = createContext(null);
 
-  const areDataReady = !loading && !error && dataFetched;
+export const MapProvider = ({ children }) => {
+  const response = useAxios();
+  return <MapContext.Provider value={response}>{children}</MapContext.Provider>;
+};
 
-  const initialArrayCutted = areDataReady
-    ? places.slice(0, displayedPlaces)
-    : [];
+export const MapDataToManipulateProvider = ({ children }) => {
+  const [data, setData] = useState([]);
+  const [elementsToShow, setElementsToShow] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 5;
 
-  const loadMore = () => {
-    setDisplayedPlaces(displayedPlaces + 5);
+  const updateDataContext = (updatedData) => {
+    setData(updatedData);
   };
 
-  const handleToggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+  useEffect(() => {
+    if (data.length > 0) {
+      const slicedData = data.slice(startIndex, startIndex + itemsPerPage);
+      setElementsToShow(slicedData);
+    }
+  }, [data, startIndex, itemsPerPage]);
+
+  const loadFiveMore = () => {
+    setStartIndex((prevIndex) => prevIndex + itemsPerPage);
   };
 
-  if (loading) {
-    return (
-      <div>
-        <h2 className="font-display text-5xl p-5">
-          Les données sont en chargement, patientez quelques instants...
-        </h2>
-      </div>
-    );
-  } else if (error) {
-    return (
-      <div>
-        <Error />
-      </div>
-    );
-  } else if (areDataReady) {
-    return (
-      <div className="relative">
-        <button
-          className="absolute top-4 left-4 z-50"
-          onClick={handleToggleDrawer}
-        >
-          Toggle Drawer
-        </button>
-        <Drawer isOpen={isDrawerOpen}>
-          <h2 className="font-display text-5xl">
-            Trouver le bar qu'il vous faut{' '}
-            <span className="text-accent">selon votre humeur</span>
-          </h2>
-          <FilterSection array={places}></FilterSection>
-          <ExploreSection
-            array={initialArrayCutted}
-            displayedPlacesNb={displayedPlaces}
-          />
-          <Button onClickAction={loadMore}> Afficher plus </Button>
-        </Drawer>
-        <Mapbox array={initialArrayCutted} />
-      </div>
-    );
-  }
+  const displayFirstPartPlaces = () => {
+    setStartIndex(0);
+  };
+
+  const updateElementsShow = (updatedElements) => {
+    setElementsToShow(updatedElements);
+  };
+
+  return (
+    <MapDataToManipulateContext.Provider
+      value={{
+        data,
+        updateDataContext,
+        loadFiveMore,
+        displayFirstPartPlaces,
+        updateElementsShow,
+        loadFiveMore,
+        displayFirstPartPlaces,
+        elementsToShow,
+        startIndex,
+        itemsPerPage,
+      }}
+    >
+      {children}
+    </MapDataToManipulateContext.Provider>
+  );
+};
+
+export const usePlaces = () => {
+  return useContext(MapContext)[0].data;
 };

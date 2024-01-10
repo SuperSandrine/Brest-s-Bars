@@ -12,8 +12,8 @@ const FindBar = () => {
   const [dataFetched, error, loading] = useContext(MapContext);
   const places = usePlaces();
   //console.log("le map context", dataFetched, error, loading);
-  const { data, updateDataContext } = useContext(MapDataToManipulateContext);
-  console.log("estce que dans finder j'ai le texte?", data);
+  //const { data, updateDataContext } = useContext(MapDataToManipulateContext);
+  //console.log("estce que dans finder j'ai le texte?", data);
 
   const [displayedPlaces, setDisplayedPlaces] = useState(5);
   //console.log("places au début", places);
@@ -25,8 +25,6 @@ const FindBar = () => {
   const initialArrayCutted = areDataReady
     ? places.slice(0, displayedPlaces)
     : [];
-    
-
 
   const loadMore = () => {
     setDisplayedPlaces(displayedPlaces + 5);
@@ -70,12 +68,13 @@ const FindBar = () => {
           </h2>
           <FilterSection array={places}></FilterSection>
           <ExploreSection
-            array={initialArrayCutted}
-            displayedPlacesNb={displayedPlaces}
+          //array={initialArrayCutted}
+          //displayedPlacesNb={displayedPlaces}
           />
-          <Button onClickAction={loadMore}> Afficher plus </Button>
         </Drawer>
-        <Mapbox array={initialArrayCutted} />
+        <Mapbox
+        //array={initialArrayCutted}
+        />
       </div>
     );
 

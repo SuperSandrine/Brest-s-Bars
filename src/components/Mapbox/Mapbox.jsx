@@ -6,7 +6,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Remember where we stored our token?
 import { environment } from '../../environments/EnvDev';
-import { MapDataToManipulateContext, usePlaces } from '../../layout/FindBar/MapContext';
+import {
+  MapDataToManipulateContext,
+  usePlaces,
+} from '../../layout/FindBar/MapContext';
 const accessToken = environment.mapbox.accessToken;
 
 //mapboxgl.accessToken = accessToken;
@@ -17,12 +20,15 @@ const Mapbox = (props) => {
 
   const [zoom] = useState(12);
   //console.log('dans mapbox, props', props);
- // const places = props.array;
+  // const places = props.array;
   const places = usePlaces();
-  const { data } = useContext(MapDataToManipulateContext);
+  const { data, startIndex, itemsPerPage, elementsToShow } = useContext(
+    MapDataToManipulateContext
+  );
 
-  const test = data ? data : places;
+  const test = data.length > 0 ? data : places;
 
+  const arrayDisplayed = test.slice(startIndex, startIndex + itemsPerPage);
 
   mapboxgl.accessToken = accessToken;
 
@@ -44,7 +50,7 @@ const Mapbox = (props) => {
 
     // ____ marche
     //const markers = [];
-    test.map((place) => {
+    elementsToShow.map((place) => {
       new mapboxgl.Marker({ color: 'darkblue' })
         .setLngLat([
           place.location.coordinates[0],
@@ -74,7 +80,7 @@ const Mapbox = (props) => {
       marker.addEventListener('mouseenter', (e) => {
         const id = e.target.classList[3];
         // trouver les coordonées dans le tableau : "places"
-        const dataFromMarker = test.find((place) => place.id == id);
+        const dataFromMarker = arrayDisplayed.find((place) => place.id == id);
 
         const coordinatesFromMarker = dataFromMarker.location.coordinates;
 
@@ -102,7 +108,7 @@ const Mapbox = (props) => {
         //console.log("qu'est ce dans e dans card", e); //121 string
         const id = e.target.dataset.id;
         // trouver les coordonées dans le tableau : "places"
-        const dataFromCard = test.find((place) => place.id == id);
+        const dataFromCard = arrayDisplayed.find((place) => place.id == id);
         //console.log('data from card', dataFromCard);
 
         const coordinatesFromCard = dataFromCard.location.coordinates;
@@ -130,7 +136,7 @@ const Mapbox = (props) => {
 
     //clean up on unmount
     return () => mapRef.current.remove();
-  }, [zoom, test]);
+  }, [zoom, test, elementsToShow]);
 
   return (
     <>
